@@ -1,0 +1,12 @@
+import java.text.DecimalFormat;
+
+	public String toString() {
+        DecimalFormat dollarFmt = new DecimalFormat("#,##0.00");
+        
+        StringBuilder result = new StringBuilder();
+        result.append(this.description);
+        result.append("    ");
+        result.append(dollarFmt.format(price));
+
+        return result.toString();
+	}
