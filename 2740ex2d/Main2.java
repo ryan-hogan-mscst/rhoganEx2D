@@ -12,14 +12,14 @@ public class Main {
         // Test RetailItem objects
         // --------------------------------------------------
 		System.out.println("Item 1:");
-		System.out.println("\t" + retailItem1.getDes());
+		System.out.println("\t" + retailItem1.getDescription());
 		System.out.println("\tUnits on hand: " + retailItem1.getOnHand());
 		System.out.println("\tPrice: " + retailItem1.getPrice());
 		System.out.println("\tTotal value: " + retailItem1.getTotal());
 		System.out.println("\ttoString: " + retailItem1.toString());
 		
 		System.out.println("Item 2:");
-		System.out.println("\t" + retailItem2.getDes());
+		System.out.println("\t" + retailItem2.getDescription());
 		System.out.println("\tUnits on hand: " + retailItem2.getOnHand());
 		System.out.println("\tPrice: " + retailItem2.getPrice());
 		System.out.println("\tTotal value: " + retailItem2.getTotal());
