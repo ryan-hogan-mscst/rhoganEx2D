@@ -1,53 +1,48 @@
+import java.text.DecimalFormat;
 
 public class RetailItem {
-	private String Description;
+	private String Des;
 	private int OnHand;
 	private double Price;
+	private double total;
 	
-	@Override
 	public String toString() {
-		return this.Description + ", OnHand=" + this.OnHand
-				+ ", Price=" + this.Price;
+		DecimalFormat fmt = new DecimalFormat("#,###.00");
+		return "RetailItem Des=" + this.Des + ", OnHand=" + this.OnHand + ", Price="
+				+ this.Price + ", Subtotal=" + fmt.format(this.getTotal());
+	}
+	
+	public RetailItem(String Des, int OnHand, double Price) {
+		this.Des = Des;
+		this.OnHand = OnHand;
+		this.Price = Price;		
+	}
+	
+	public String getDes() {
+		return Des;
+	}
+	public void setDes(String des) {
+		Des = des;
 	}
 
-	public RetailItem(String Description, int OnHand, double Price) {
+	public RetailItem() {
 		super();
 		// TODO Auto-generated constructor stub
-		this.Description = Description;
-		this.OnHand = OnHand;
-		this.Price = Price;
 	}
-
-	public String getDescription() {
-		return this.Description;
-	}
-
-	public void setDescription(String description) {
-		Description = description;
-	}
-
 	public int getOnHand() {
-		return this.OnHand;
+		return OnHand;
 	}
-
 	public void setOnHand(int onHand) {
 		OnHand = onHand;
 	}
-
 	public double getPrice() {
-		return this.Price;
+		return Price;
 	}
-
 	public void setPrice(double price) {
 		Price = price;
 	}
-
-
-
-
-
-
-
-	
-
+	public double getTotal() {
+		total = OnHand * Price;
+		return total;
+	}
 }

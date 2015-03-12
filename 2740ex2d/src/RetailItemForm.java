@@ -1,22 +1,22 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 
-import rhoganEx2C.Person;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class RetailItemForm extends JFrame {
@@ -27,9 +27,14 @@ public class RetailItemForm extends JFrame {
 	private JTextField onHandTxt;
 	private JTextField textField_2;
 	private JButton btnEnter;
-	private JList retailItemList;
+	//private JList retailItemList;
 	private JLabel Totallbl;
-	private RetailItem retailItem1;
+	private RetailItem RetailItem1;
+	double totalItem = 0.0;
+	private DefaultListModel retailItemListModel;
+	private JList retailItemList;
+
+
 
 	/**
 	 * Launch the application.
@@ -52,7 +57,7 @@ public class RetailItemForm extends JFrame {
 	 */
 	public RetailItemForm() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 519, 300);
+		setBounds(100, 100, 716, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -109,10 +114,17 @@ public class RetailItemForm extends JFrame {
 		contentPane.add(btnEnter);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(271, 20, 200, 179);
+		scrollPane.setBounds(271, 20, 419, 179);
 		contentPane.add(scrollPane);
 		
-		retailItemList = new JList();
+		retailItemListModel = new DefaultListModel();
+		retailItemList = new JList(retailItemListModel);
+		retailItemList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				do_retailItemList_mouseClicked(arg0);
+			}
+		});
 		scrollPane.setViewportView(retailItemList);
 		
 		JLabel lblNewLabel_3 = new JLabel("Total all items");
@@ -124,23 +136,33 @@ public class RetailItemForm extends JFrame {
 		contentPane.add(Totallbl);
 	}
 	protected void do_btnEnter_actionPerformed(ActionEvent e) {
-		int Units = Integer.parseInt(onHandTxt.getText());
+		int OnHand = Integer.parseInt(onHandTxt.getText());
 		double Price = Double.parseDouble(textField_2.getText());
-		retailItem1 = new RetailItem(descriptionTxt.getText(), Units, Price);
-		double total =0.0;
-		total += retailItem1.getTotal();
-		DecimalFormat fmt = new DecimalFormat("$#,###,.00");
-		this.Totallbl.setText(fmt.format(total));
-		descriptionTxt.setText("");
+		RetailItem1 = new RetailItem(descriptionTxt.getText(), OnHand, Price);
+		retailItemListModel.addElement(RetailItem1);
+		
+		totalItem += RetailItem1.getTotal();
+		DecimalFormat fmt = new DecimalFormat("$#,###.00");
+		this.Totallbl.setText(fmt.format(totalItem));
 		onHandTxt.setText("0");
 		textField_2.setText("0.00");
+		descriptionTxt.setText("");
 		descriptionTxt.requestFocus();
 			//...;
 	}
 	protected void do_onHandTxt_focusGained(FocusEvent arg0) {
-		onHandTxt.selectAll();
+			onHandTxt.selectAll();
 	}
 	protected void do_textField_2_focusGained(FocusEvent e) {
-		textField_2.selectAll();
+			textField_2.selectAll();
+	}
+	protected void do_retailItemList_mouseClicked(MouseEvent arg0) {
+		RetailItem item = (RetailItem) retailItemList.getSelectedValue();
+		this.descriptionTxt.setText(item.getDes());
+		this.onHandTxt.setText(Integer.toString(item.getOnHand()));
+		DecimalFormat Fmt = new DecimalFormat("###0.00");
+		this.textField_2.setText(Fmt.format(item.getPrice()));
+		this.descriptionTxt.requestFocus();
+			
 	}
 }
